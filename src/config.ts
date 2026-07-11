@@ -39,10 +39,7 @@ export async function readConfig(): Promise<Config> {
     const json = JSON.parse(rawData);
     return validateConfig(json);
   } catch (error) {
-    return {
-      dbUrl: 'postgres://example',
-      currentUserName: '',
-    };
+    throw new Error('Something went wrong reading the config file!');
   }
 }
 
@@ -50,7 +47,7 @@ async function writeConfig(cfg: Config): Promise<void> {
   const filePath = getConfigFilePath();
   
   const json: JsonConfig = {
-    db_url: cfg.dbUrl || 'postgres://example',
+    db_url: cfg.dbUrl,
     current_user_name: cfg.currentUserName,
   };
 
