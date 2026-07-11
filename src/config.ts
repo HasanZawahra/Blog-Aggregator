@@ -4,12 +4,12 @@ import * as os from 'os';
 
 const CONFIG_FILE_NAME = '.gatorconfig.json';
 
-export interface Config {
+export type Config = {
   dbUrl: string;
   currentUserName: string;
 }
 
-interface JsonConfig {
+type JsonConfig = {
   db_url: string;
   current_user_name: string;
 }

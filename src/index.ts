@@ -1,16 +1,29 @@
-import { readConfig, setUser } from './config.js';
+import { handlerLogin } from "./commands/login.js";
+import { registerCommand, runCommand } from "./commands/registry.js";
+import { CommandsRegistry } from "./types.js";
 
 async function main() {
-  try {
-    await setUser('Hasan');
+  let cr: CommandsRegistry = {};
+  registerCommand(cr, "login", handlerLogin);
 
-    const updatedConfig = await readConfig();
-    console.log(updatedConfig);    
+  const args = process.argv.slice(2);
+
+  if (args.length < 1) {
+    console.error('Error: Not enough arguments provided. Please specify a command.');
+    process.exit(1);
   }
-  
-  catch (error) {
-    console.error('An error occurred during execution:', error);
+
+  const commandName = args[0];
+  const commandArgs = args.slice(1);
+
+  try {
+    await runCommand(cr, commandName, ...commandArgs);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Execution error: ${errorMessage}`);
+    process.exit(1);
   }
+
 }
 
 main();
