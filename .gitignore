@@ -1,3 +1,4 @@
 .vscode
 .nvmrc
 node_modules
+.gatorconfig.json
