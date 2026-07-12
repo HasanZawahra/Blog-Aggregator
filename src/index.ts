@@ -1,5 +1,6 @@
 import { handlerAddFeed } from "./commands/handlers/feed_handlers/add_feed.js";
 import { handlerAgg } from "./commands/handlers/feed_handlers/habdler_agg.js";
+import { handlerListFeeds } from "./commands/handlers/feed_handlers/list_feeds.js";
 import { handlerUsers } from "./commands/handlers/user_handlers/list_users.js";
 import { handlerLogin } from "./commands/handlers/user_handlers/login.js";
 import { handlerRegister } from "./commands/handlers/user_handlers/register.js";
@@ -15,6 +16,8 @@ async function main() {
   registerCommand(cr, 'users', handlerUsers);
   registerCommand(cr, 'agg', handlerAgg);
   registerCommand(cr, 'addfeed', handlerAddFeed);
+  registerCommand(cr, 'feeds', handlerListFeeds);
+
 
   const args = process.argv.slice(2);
 
