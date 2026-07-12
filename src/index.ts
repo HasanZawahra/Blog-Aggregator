@@ -1,10 +1,12 @@
 import { handlerLogin } from "./commands/login.js";
+import { handlerRegister } from "./commands/register.js";
 import { registerCommand, runCommand } from "./commands/registry.js";
 import { CommandsRegistry } from "./types.js";
 
 async function main() {
   let cr: CommandsRegistry = {};
   registerCommand(cr, "login", handlerLogin);
+  registerCommand(cr, 'register', handlerRegister);
 
   const args = process.argv.slice(2);
 
@@ -23,7 +25,8 @@ async function main() {
     console.error(`Execution error: ${errorMessage}`);
     process.exit(1);
   }
-
+  process.exit(0);
+  
 }
 
 main();
