@@ -1,4 +1,4 @@
-import { fetchFeed } from "../../services/fetch_feed.js";
+import { fetchFeed } from "../../../services/fetch_feed.js";
 
 export async function handlerAgg(cmdName: string, ...args: string[]): Promise<void> {
   const targetUrl = 'https://www.wagslane.dev/index.xml';

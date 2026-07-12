@@ -3,3 +3,4 @@
 node_modules
 .gatorconfig.json
 .env
+src/db/generated_files

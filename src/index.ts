@@ -1,8 +1,9 @@
-import { handlerAgg } from "./commands/handlers/habdler_agg.js";
-import { handlerUsers } from "./commands/handlers/list_users.js";
-import { handlerLogin } from "./commands/handlers/login.js";
-import { handlerRegister } from "./commands/handlers/register.js";
-import { handlerReset } from "./commands/handlers/reset.js";
+import { handlerAddFeed } from "./commands/handlers/feed_handlers/add_feed.js";
+import { handlerAgg } from "./commands/handlers/feed_handlers/habdler_agg.js";
+import { handlerUsers } from "./commands/handlers/user_handlers/list_users.js";
+import { handlerLogin } from "./commands/handlers/user_handlers/login.js";
+import { handlerRegister } from "./commands/handlers/user_handlers/register.js";
+import { handlerReset } from "./commands/handlers/user_handlers/reset.js";
 import { registerCommand, runCommand } from "./commands/registry.js";
 import { CommandsRegistry } from "./types.js";
 
@@ -13,6 +14,7 @@ async function main() {
   registerCommand(cr, 'reset', handlerReset);
   registerCommand(cr, 'users', handlerUsers);
   registerCommand(cr, 'agg', handlerAgg);
+  registerCommand(cr, 'addfeed', handlerAddFeed);
 
   const args = process.argv.slice(2);
 
