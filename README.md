@@ -53,7 +53,7 @@ A modular, high-performance **Node.js Command Line Interface (CLI)** application
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone <your-repository-url>
+git clone <https://github.com/HasanZawahra/Blog-Aggregator.git>
 cd blog-aggregator
 npm install
 ```
