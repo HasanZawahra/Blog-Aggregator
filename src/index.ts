@@ -1,3 +1,4 @@
+import { handlerUsers } from "./commands/handlers/list_users.js";
 import { handlerLogin } from "./commands/handlers/login.js";
 import { handlerRegister } from "./commands/handlers/register.js";
 import { handlerReset } from "./commands/handlers/reset.js";
@@ -9,6 +10,8 @@ async function main() {
   registerCommand(cr, "login", handlerLogin);
   registerCommand(cr, 'register', handlerRegister);
   registerCommand(cr, 'reset', handlerReset);
+  registerCommand(cr, 'users', handlerUsers);
+
 
   const args = process.argv.slice(2);
 
