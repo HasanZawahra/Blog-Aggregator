@@ -1,4 +1,5 @@
 import { getNextFeedToFetch, markFeedFetched } from "../db/queries/feeds.js";
+import { createPost } from "../db/queries/posts.js";
 import { fetchFeed } from "../services/fetch_feed.js";
 
 export async function scrapeFeeds(): Promise<void> {
@@ -15,10 +16,28 @@ export async function scrapeFeeds(): Promise<void> {
 
     await markFeedFetched(nextFeed.id);
 
-    console.log(`Found ${feedData.items.length} items inside '${feedData.title}':`);
+    let savedCount = 0;
+
     for (const item of feedData.items) {
-      console.log(`* ${item.title}`);
+      let publishedAtDate = new Date(item.pubDate);
+      if (isNaN(publishedAtDate.getTime())) {
+        publishedAtDate = new Date();
+      }
+
+      const savedPost = await createPost({
+        title: item.title,
+        url: item.link,
+        description: item.description || null,
+        publishedAt: publishedAtDate,
+        feedId: nextFeed.id,
+      });
+
+      if (savedPost) {
+        savedCount++;
+      }
     }
+
+    console.log(`Successfully scraped '${feedData.title}': saved ${savedCount} new posts.`);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error(`Error scraping feed '${nextFeed.name}': ${errorMessage}`);

@@ -2,6 +2,7 @@ import { handlerFollow, handlerFollowing, handlerUnfollow } from "./commands/han
 import { handlerAddFeed } from "./commands/handlers/feed_handlers/add_feed.js";
 import { handlerAgg } from "./commands/handlers/feed_handlers/handler_agg.js";
 import { handlerListFeeds } from "./commands/handlers/feed_handlers/list_feeds.js";
+import { handlerBrowse } from "./commands/handlers/post_handlers/browse.js";
 import { handlerUsers } from "./commands/handlers/user_handlers/list_users.js";
 import { handlerLogin } from "./commands/handlers/user_handlers/login.js";
 import { handlerRegister } from "./commands/handlers/user_handlers/register.js";
@@ -22,6 +23,7 @@ async function main() {
   registerCommand(cr, 'follow', middlewareLoggedIn(handlerFollow));
   registerCommand(cr, 'following', middlewareLoggedIn(handlerFollowing));
   registerCommand(cr, "unfollow", middlewareLoggedIn(handlerUnfollow));
+  registerCommand(cr, "browse", middlewareLoggedIn(handlerBrowse));
 
   const args = process.argv.slice(2);
 
