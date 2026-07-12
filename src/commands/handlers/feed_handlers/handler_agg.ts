@@ -1,15 +1,32 @@
-import { fetchFeed } from "../../../services/fetch_feed.js";
+import { parseDuration } from "../../../utils/parse_duration.js";
+import { scrapeFeeds } from "../../../utils/scrape_feeds.js";
 
 export async function handlerAgg(cmdName: string, ...args: string[]): Promise<void> {
-  const targetUrl = 'https://www.wagslane.dev/index.xml';
-  
-  console.log(`Fetching feed from ${targetUrl}...`);
-  try {
-    const feed = await fetchFeed(targetUrl);
-    console.log(JSON.stringify(feed, null, 2));
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`Failed to aggregate feed: ${errorMessage}`);
-    process.exit(1);
+  if (args.length === 0) {
+    throw new Error("The agg command expects a single argument: time_between_reqs (e.g., '10s', '1m').");
   }
+
+  const durationStr = args[0];
+  const timeBetweenRequests = parseDuration(durationStr);
+
+  console.log(`Collecting feeds every ${durationStr}`);
+
+  const handleError = (error: unknown) => {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(`Aggregator background error: ${errorMessage}`);
+  };
+
+  scrapeFeeds().catch(handleError);
+
+  const interval = setInterval(() => {
+    scrapeFeeds().catch(handleError);
+  }, timeBetweenRequests);
+
+  await new Promise<void>((resolve) => {
+    process.on("SIGINT", () => {
+      console.log("\nShutting down feed aggregator...");
+      clearInterval(interval);
+      resolve();
+    });
+  });
 }
