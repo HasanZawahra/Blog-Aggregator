@@ -1,5 +1,5 @@
-import { setUser } from "../config.js";
-import { createUser, getUserByName } from "../lib/db/queries/users.js";
+import { setUser } from "../../config.js";
+import { getUserByName, createUser } from "../../lib/db/queries/users.js";
 
 export async function handlerRegister(cmdName: string, ...args: string[]): Promise<void> {
   if (args.length === 0 || !args[0]) {
