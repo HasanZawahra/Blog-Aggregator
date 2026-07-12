@@ -1,4 +1,4 @@
-import { getFeedByUrl, createFeedFollow, getFeedFollowsForUser } from "../../../db/queries/feed_follow.js";
+import { getFeedByUrl, createFeedFollow, getFeedFollowsForUser, deleteFeedFollow } from "../../../db/queries/feed_follow.js";
 import { User } from "../../../types.js";
 
 export async function handlerFollow(
@@ -40,4 +40,20 @@ export async function handlerFollowing(
   for (const follow of follows) {
     console.log(`* ${follow.feedName}`);
   }
+}
+
+export async function handlerUnfollow(
+  cmdName: string,
+  user: User,
+  ...args: string[]
+): Promise<void> {
+  if (args.length === 0) {
+    throw new Error("The unfollow command expects a single argument: the feed URL.");
+  }
+
+  const feedUrl = args[0];
+
+  await deleteFeedFollow(user.id, feedUrl);
+
+  console.log(`Successfully unfollowed the feed at: ${feedUrl}`);
 }

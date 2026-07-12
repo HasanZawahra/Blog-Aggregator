@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../index.js";
 import { feedFollows, users, feeds } from "../scheme.js";
 
@@ -54,4 +54,31 @@ export async function getFeedFollowsForUser(userId: string) {
     .innerJoin(users, eq(feedFollows.userId, users.id))
     .innerJoin(feeds, eq(feedFollows.feedId, feeds.id))
     .where(eq(feedFollows.userId, userId));
+}
+
+export async function deleteFeedFollow(userId: string, feedUrl: string) {
+  const [targetFeed] = await db
+    .select({ id: feeds.id })
+    .from(feeds)
+    .where(eq(feeds.url, feedUrl));
+
+  if (!targetFeed) {
+    throw new Error(`No feed found matching URL: ${feedUrl}`);
+  }
+
+  const result = await db
+    .delete(feedFollows)
+    .where(
+      and(
+        eq(feedFollows.userId, userId),
+        eq(feedFollows.feedId, targetFeed.id)
+      )
+    )
+    .returning();
+
+  if (result.length === 0) {
+    throw new Error(`You are not currently following the feed at: ${feedUrl}`);
+  }
+
+  return result[0];
 }
