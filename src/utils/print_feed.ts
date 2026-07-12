@@ -1,7 +1,4 @@
-import { users, feeds } from "../db/scheme.js";
-
-export type User = typeof users.$inferSelect;
-export type Feed = typeof feeds.$inferSelect;
+import { Feed, User } from "../types.js";
 
 export function printFeed(feed: Feed, user: User): void {
   console.log(`* **ID**: ${feed.id}`);
