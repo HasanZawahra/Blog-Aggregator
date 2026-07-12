@@ -1,3 +1,4 @@
+import { handlerAgg } from "./commands/handlers/habdler_agg.js";
 import { handlerUsers } from "./commands/handlers/list_users.js";
 import { handlerLogin } from "./commands/handlers/login.js";
 import { handlerRegister } from "./commands/handlers/register.js";
@@ -11,7 +12,7 @@ async function main() {
   registerCommand(cr, 'register', handlerRegister);
   registerCommand(cr, 'reset', handlerReset);
   registerCommand(cr, 'users', handlerUsers);
-
+  registerCommand(cr, 'agg', handlerAgg);
 
   const args = process.argv.slice(2);
 
