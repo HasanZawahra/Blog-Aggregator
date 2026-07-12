@@ -1,4 +1,5 @@
 import { readConfig } from "../../../config.js";
+import { createFeedFollow } from "../../../db/queries/feed_follow.js";
 import { createFeed } from "../../../db/queries/feeds.js";
 import { getUserByName } from "../../../db/queries/users.js";
 
@@ -22,6 +23,11 @@ export async function handlerAddFeed(cmdName: string, ...args: string[]): Promis
 
   const newFeed = await createFeed(feedName, feedUrl, currentUser.id);
 
+  const followResult = await createFeedFollow(currentUser.id, newFeed.id);
+
   console.log(`Feed '${feedName}' was successfully added.`);
   console.log(newFeed);
+  console.log(`Automatically followed feed!`);
+  console.log(`* **Feed Name**: ${followResult.feedName}`);
+  console.log(`* **User Name**: ${followResult.userName}`);
 }

@@ -25,3 +25,4 @@ export async function getAllFeedsWithUsers() {
     .from(feeds)
     .innerJoin(users, eq(feeds.userId, users.id));
 }
+

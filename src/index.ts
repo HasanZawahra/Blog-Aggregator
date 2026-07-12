@@ -1,3 +1,4 @@
+import { handlerFollow, handlerFollowing } from "./commands/handlers/feed_follow_habdlers/follow.js";
 import { handlerAddFeed } from "./commands/handlers/feed_handlers/add_feed.js";
 import { handlerAgg } from "./commands/handlers/feed_handlers/habdler_agg.js";
 import { handlerListFeeds } from "./commands/handlers/feed_handlers/list_feeds.js";
@@ -17,7 +18,8 @@ async function main() {
   registerCommand(cr, 'agg', handlerAgg);
   registerCommand(cr, 'addfeed', handlerAddFeed);
   registerCommand(cr, 'feeds', handlerListFeeds);
-
+  registerCommand(cr, 'follow', handlerFollow);
+  registerCommand(cr, 'following', handlerFollowing);
 
   const args = process.argv.slice(2);
 
